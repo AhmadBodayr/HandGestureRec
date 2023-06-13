@@ -5,7 +5,7 @@ setup(
     long_description=long_description, 
     long_description_content_type="text/,markdown",
     name='HandGestureRecSiliconM1',
-    version='0.1',
+    version='0.1.1',
     description='m1 macs version',
     packages=find_packages(),
     py_modules=[
