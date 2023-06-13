@@ -13,7 +13,7 @@ It is comprised of:
 No DBMS was used instead a folder tree which is composed of 3 submodules was built. The first submodule is  a  gestures folder that contains all the gestures defined by the user, the second is a datasets submodule which contains all the datasets created by the user. A single dataset is a non null subset of the gestures.
 ### The machine learning algorithm:
 The ML. model used is an LSTM model  which was built using Tensorflow 2.X  and the Keras ApI. for tensorFlow.
-# How to uses:
+# How to use:
 install the library from $ pip using pip install HandGestureRecSiliconM1 and in your python project write at the terminal run 
 * 1)   The user define one or more gesture using the GUI. One gesture is to be defined at a time. The gesture is defined by giving it a name and pressing create gesture then OpenCV will  give the user access to the webcam, 80 videos will be taken each is 30 frames in length so the user needs to do the gesture for 80 times. The starting time of each try of the 80 will be shown on the screen.
 * 2) After the user defines 1 or more gestures, he can then use the datasets submodule to create a dataset which will then serve as an input to the ML. model. To create a dataset the user have to give it a name and choose a subset of the gestures he defiend before hand then press create dataset.
