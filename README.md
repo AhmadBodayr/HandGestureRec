@@ -1,6 +1,6 @@
-# HandGestureRecSiliconM1
+# HandGestureRec
 # Short Summary:
-This is a dynamic hand gesture detection library for m1 silicon, the user can interact with the library using a GUI built using Tkinter.
+This is a dynamic hand gesture detection library, the user can interact with the library using a GUI built using Tkinter.
 ## Implementation: 
 The library uses the webcam as the sensor and it gives the user access to the webcam using opencv, then the handlandmarks are collected using MediaPipe.
 ## GUI:

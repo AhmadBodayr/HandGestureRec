@@ -1,11 +1,18 @@
+import platform
 from setuptools import setup, find_packages
 with open("README.md", "r") as fh:
     long_description = fh.read()
+    tfversion = ""
+    if platform.system() == "Darwin":
+        tfversion = "tensorflow-macos"
+    else:
+        tfversion = "tensorflow"
+        
 setup(
     long_description=long_description, 
     long_description_content_type="text/markdown",
-    name='HandGestureRecSiliconM1',
-    version='0.1.3',
+    name='HandGestureRec',
+    version='0.1.4',
     description='m1 macs version',
     packages=find_packages(),
     py_modules=[
@@ -26,14 +33,15 @@ setup(
         "scikit-learn",
         'mediapipe',
         'opencv-python',
-        'tensorflow-macos',
+        tfversion,
         'numpy',
         "pandas",
     ],
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
-        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: OS Independent',
     ],
     package_dir = {'': 'src'},
+  
 )  
