@@ -5,7 +5,7 @@ setup(
     long_description=long_description, 
     long_description_content_type="text/markdown",
     name='HandGestureRecSiliconM1',
-    version='0.1.2',
+    version='0.1.3',
     description='m1 macs version',
     packages=find_packages(),
     py_modules=[
@@ -19,7 +19,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'run = main:run',
+            'runHandGestureRec = main:run',
         ],
     },
     install_requires=[
@@ -33,7 +33,7 @@ setup(
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
-        'Operating System :: OS Independent',
+        'Operating System :: MacOS :: MacOS X',
     ],
     package_dir = {'': 'src'},
 )  
