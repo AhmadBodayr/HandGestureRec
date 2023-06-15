@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import *
-import MLScript_2
+import MLScript
 import shutil
 import mainView
 import os
@@ -20,7 +20,7 @@ class ModelTestingView(tk.Frame):
         self.modelsBox= Listbox(self, selectmode=SINGLE)
         self.createdModels_label = tk.Label(self, text="Created Models")
         self.createdModels_label.pack()
-        for entry in os.scandir(MLScript_2.DATA_PATH3):
+        for entry in os.scandir(MLScript.DATA_PATH3):
             if entry.is_dir() and entry.name != ".DS_Store":
                 self.modelsBox.insert(tk.END, entry.name)
         self.modelsBox.pack()
@@ -35,7 +35,7 @@ class ModelTestingView(tk.Frame):
         selected_index = self.modelsBox.curselection() 
         if selected_index:
             selectedModel = self.modelsBox.get(selected_index)
-            MLScript_2.realtime_testing(selectedModel)
+            MLScript.realtime_testing(selectedModel)
 
 
             

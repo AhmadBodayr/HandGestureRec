@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import *
-import MLScript_2
+import MLScript
 import shutil
 import mainView
 import os
@@ -27,15 +27,15 @@ class MyDataSetsView(tk.Frame):
         self.selectedGesturesBox = Listbox(self)
         self.gestures_label = tk.Label(self, text="Defined Gestures")
         self.gestures_label.pack()
-        gestures = os.listdir(MLScript_2.DATA_PATH)
-        sets = os.listdir(MLScript_2.DATA_PATH2)
-        folders = [item for item in gestures if os.path.isdir(os.path.join(MLScript_2.DATA_PATH, item))]
+        gestures = os.listdir(MLScript.DATA_PATH)
+        sets = os.listdir(MLScript.DATA_PATH2)
+        folders = [item for item in gestures if os.path.isdir(os.path.join(MLScript.DATA_PATH, item))]
         for i in folders:
             self.definedGesturesBox.insert(tk.END, i)
         self.definedGesturesBox.pack()
         self.dataSets_label = tk.Label(self, text="Defined DataSets")
         self.dataSets_label.pack()    
-        folders = [item for item in sets if os.path.isdir(os.path.join(MLScript_2.DATA_PATH2, item))]
+        folders = [item for item in sets if os.path.isdir(os.path.join(MLScript.DATA_PATH2, item))]
         for i in folders:
             self.dataSetsBox.insert(tk.END, i)
         self.dataSetsBox.pack()
@@ -72,15 +72,15 @@ class MyDataSetsView(tk.Frame):
 
     def createDataSet(self):
         if self.dataSetName_entry.get() != "" and self.selectedGesturesBox.size != 0:
-            dest_dir = os.path.join(MLScript_2.DATA_PATH2, self.dataSetName_entry.get())
+            dest_dir = os.path.join(MLScript.DATA_PATH2, self.dataSetName_entry.get())
             if os.path.exists(dest_dir):
                 print(f"Directory {dest_dir} already exists.")
                 return
             os.makedirs(dest_dir)
             selected_items = self.selectedGesturesBox.get(0, tk.END)
             for gesture in selected_items:
-                src_dir = os.path.join(MLScript_2.DATA_PATH, gesture)
-                dest_dir = os.path.join(MLScript_2.DATA_PATH2, self.dataSetName_entry.get(), gesture)
+                src_dir = os.path.join(MLScript.DATA_PATH, gesture)
+                dest_dir = os.path.join(MLScript.DATA_PATH2, self.dataSetName_entry.get(), gesture)
                 if os.path.isdir(src_dir):
                     shutil.copytree(src_dir, dest_dir)
                 else:

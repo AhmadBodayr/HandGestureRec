@@ -12,12 +12,12 @@ setup(
     long_description=long_description, 
     long_description_content_type="text/markdown",
     name='HandGestureRec',
-    version='0.1.4',
-    description='m1 macs version',
+    version='0.1.5',
+    description='Dynamic hand gesture detection library using ML.',
     packages=find_packages(),
     py_modules=[
         "main",
-        "MLScript_2",
+        "MLScript",
         "mainView",
         "modelTestingView",
         "myDataSetsView",
@@ -26,7 +26,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'runHandGestureRec = main:run',
+            'execHandGestureRec = main:run',
         ],
     },
     install_requires=[

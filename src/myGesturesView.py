@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import *
-import MLScript_2
+import MLScript
 import mainView
 import os
 class MyGesturesView(tk.Frame):
@@ -22,8 +22,8 @@ class MyGesturesView(tk.Frame):
             self.title_label = tk.Label(self, text="Defined gestures")
             self.title_label.pack()
         self.listbox.delete(0, tk.END)
-        items = os.listdir(MLScript_2.DATA_PATH)
-        folders = [item for item in items if os.path.isdir(os.path.join(MLScript_2.DATA_PATH, item))]
+        items = os.listdir(MLScript.DATA_PATH)
+        folders = [item for item in items if os.path.isdir(os.path.join(MLScript.DATA_PATH, item))]
         for i in folders:
             self.listbox.insert(tk.END, i)
         self.listbox.pack()

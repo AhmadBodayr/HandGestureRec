@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import *
-import MLScript_2
+import MLScript
 import myGesturesView
 import myModelsView
 import myDataSetsView
@@ -42,9 +42,9 @@ class MainView(tk.Frame):
     def gestureTaking(self, gesture):
         if gesture == "":
             return
-        MLScript_2.define_gestures(gesture)
-        MLScript_2.create_Gestures_folder()
-        MLScript_2.data_collection_cam_loop()
+        MLScript.define_gestures(gesture)
+        MLScript.create_Gestures_folder()
+        MLScript.data_collection_cam_loop()
         self.gestureName_entry.delete(0, tk.END) 
         self.definedGestures += 1
         self.pack_forget()
