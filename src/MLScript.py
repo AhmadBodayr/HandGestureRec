@@ -36,6 +36,8 @@ from tensorflow.keras.utils import plot_model
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import multilabel_confusion_matrix, accuracy_score
 
+baseCounter = 0
+
 learning_rate = .001
 adam = Adam(learning_rate)
 # Setting up the learning rate
@@ -72,7 +74,6 @@ sequence_length = 30
 action = ""
 X = np.array([])
 y = np.array([])
-
 mp_holistic = mp.solutions.holistic 
 mp_drawing = mp.solutions.drawing_utils
 mp_holistic = mp.solutions.holistic
@@ -82,6 +83,19 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Construct the path to the holistic model file
 model_path = os.path.join(script_dir, 'models', 'holistic.pb')
+
+
+# Early stopping class
+class earlyStop(tf.keras.callbacks.Callback):
+    def on_epoch_end(self, epoch, logs=None):
+        global baseCounter
+        if logs.get("categorical_accuracy") > 0.9:
+            if baseCounter == 3:
+                self.model.stop_training = True
+            else:
+                baseCounter += 1
+        else:
+            baseCounter = 0
 
 # definning gesture /////////////////
 def define_gestures(gesture):
@@ -152,16 +166,17 @@ def create_Gestures_folder():
             pass     
     print("Folders created successfully")
 
-# The camera loop for data gathering ------------------------------------
+# The camera loop for data gathering
 def data_collection_cam_loop():
     global action
     global sequences
     global sequence_length
     global DATA_PATH
+    sequence_length = 30
     print("Started Collecting data")
     cap = cv2.VideoCapture(0)
     # Set mediapipe model 
-    with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+    with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.8) as holistic:
         for sequence in range(no_sequences):
             for frame_num in range(sequence_length):
                 # Read feed
@@ -197,7 +212,7 @@ def data_collection_cam_loop():
 
 
 
-# Building the input data and label and making the   ///////////////////////////////
+# Building the input data and labels
 def build_data_and_labels(selectedSet):
     global DATA_PATH2
     global sequences
@@ -205,7 +220,7 @@ def build_data_and_labels(selectedSet):
     global labels
     global possible
     global X
-    global y
+    global y   
     global actions
     # Building the data and labels
     temp = []
@@ -213,6 +228,7 @@ def build_data_and_labels(selectedSet):
         if entry.is_dir():
             temp.append(entry.name)
     actions = np.array(temp)
+    actions.sort()
     label_map = {label:num for num, label in enumerate(actions)}
     for action in actions:
         for sequence in os.listdir(os.path.join(DATA_PATH2, selectedSet, action)):
@@ -228,7 +244,6 @@ def build_data_and_labels(selectedSet):
     # Setting up the data and labels
     X = np.array(sequences)
     y = to_categorical(labels).astype(int)
-    # Making the train/test split
     possible = True
     print(" Training and testing tesnsors are ready!!!")
 
@@ -236,15 +251,16 @@ def build_data_and_labels(selectedSet):
 def build_ML_model(modelName):
     global possible
     global X
-    global y 
+    global y
     global DATA_PATH3   
     global model
     global adam
+    global baseCounter
     global actions
     if possible == False:
         print("Error: Cant build the model yet, data not ready")
         return
-    
+    baseCounter = 0
     model = Sequential()
     model.add(LSTM(64, return_sequences=True, activation='relu'))
     model.add(LSTM(128, return_sequences=True, activation='relu'))
@@ -252,14 +268,16 @@ def build_ML_model(modelName):
     model.add(Dense(64, activation='relu'))
     model.add(Dense(32, activation='relu'))
     model.add(Dense(actions.shape[0], activation='softmax'))
-    # Compiling the model
-    model.compile(optimizer=adam ,loss='categorical_crossentropy', metrics=['accuracy'])
+    # Compilling the model
+    model.compile(optimizer=adam, loss='categorical_crossentropy', metrics=['categorical_accuracy'])
     # Fitting the model
-    model.fit(X, y, epochs=50)
+    model.fit(X, y, epochs=500, callbacks=[earlyStop()])
+    # Saving the model
     model.save(os.path.join(DATA_PATH3, modelName))
     print("Model finished training successfully!")
 
 def realtime_testing(modelName):
+    # actions dont forget
     global sequence_length
     global DATA_PATH3
     temp = []
@@ -267,16 +285,15 @@ def realtime_testing(modelName):
         if entry.is_dir():
             temp.append(entry.name)
     newActions = np.array(temp)
-    
-
+    newActions.sort()
     loadedModel = tf.keras.models.load_model(os.path.join(DATA_PATH3, modelName))
     # The sequence of frames
     sequence = []
     # The prediction thresh hold 
-    threshold = .75
+    threshold = .90
     # Screen video capture and realtime detection
     cap = cv2.VideoCapture(0)
-    with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.5) as holistic:
+    with mp_holistic.Holistic(min_detection_confidence=0.5, min_tracking_confidence=0.8) as holistic:
         while cap.isOpened():
             # Read feed
             ret, frame = cap.read()

@@ -6,6 +6,7 @@ import mainView
 import os
 class MyModelsView(tk.Frame):
     back_button = None
+    deleteModel_button = None
     modelsBox = None
     dataSetsBox = None
     models_label = None
@@ -19,7 +20,9 @@ class MyModelsView(tk.Frame):
         self.howTo = tk.Label(self, text="To create a model, select a predefined dataset then press create model", pady=10)
         self.howTo.pack()
         self.back_button = tk.Button(self, text="Back", font=("Arial",15), command=self.backToMainView)
+        self.deleteModel_button = tk.Button(self, text="Delete Model", font=("Arial",15), command=self.deleteModel)
         self.back_button.pack(side=tk.BOTTOM)
+        self.deleteModel_button.pack(side=tk.BOTTOM, pady=20)
         self.dataSetsBox = Listbox(self, selectmode=tk.SINGLE)
         self.modelsBox= Listbox(self)
         sets = os.listdir(MLScript.DATA_PATH2)
@@ -57,6 +60,15 @@ class MyModelsView(tk.Frame):
             MLScript.build_ML_model(selectedSet)
             self.creationInProgress_label.pack_forget()
             self.modelsBox.insert(tk.END, selectedSet)
+    
+    def deleteModel(self):
+        selected_index = self.modelsBox.curselection()
+        if selected_index:
+            modelName = self.modelsBox.get(selected_index)
+            self.modelsBox.delete(selected_index)
+            folder_to_delete = os.path.join(MLScript.DATA_PATH3, modelName)
+            if os.path.exists(folder_to_delete):
+                shutil.rmtree(folder_to_delete)
 
 
             

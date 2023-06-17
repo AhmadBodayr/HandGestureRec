@@ -12,7 +12,7 @@ setup(
     long_description=long_description, 
     long_description_content_type="text/markdown",
     name='HandGestureRec',
-    version='0.1.5',
+    version='0.1.6',
     description='Dynamic hand gesture detection library using ML.',
     packages=find_packages(),
     py_modules=[

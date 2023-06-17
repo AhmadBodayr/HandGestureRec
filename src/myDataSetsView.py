@@ -6,10 +6,10 @@ import mainView
 import os
 class MyDataSetsView(tk.Frame):
     back_button = None
-    
     definedGesturesBox = None
     selectedGesturesBox = None
     dataSetsBox = None
+    deleteDataset_button = None
     gestures_label = None
     dataSets_label = None
     addSelected_button = None
@@ -47,11 +47,13 @@ class MyDataSetsView(tk.Frame):
         self.dataSetName_entry = tk.Entry(self)
         self.dataSetName_entry.pack(side=tk.LEFT)
         self.addSelected_button = tk.Button(self, text="Add Selected", font=("Arial",15), command=self.add_selected_items)
+        self.deleteDataset_button = tk.Button(self, text="Delete Dataset", font=("Arial",15), command=self.deleteDataset)
         self.back_button = tk.Button(self, text="Back", font=("Arial",15), command=self.backToMainView)
         self.createDataSet_button = tk.Button(self, text="create Dataset", font=("Arial",15), command=self.createDataSet)
         self.delete_button = tk.Button(self, text="Remove All", font=("Arial",15), command=self.emptySet)
         self.createDataSet_button.pack(side=tk.LEFT, pady=20)
         self.delete_button.pack(side=tk.LEFT, pady=20)
+        self.deleteDataset_button.pack(side=tk.LEFT, pady=20)
         self.addSelected_button.pack(side=tk.LEFT, pady=20)
         self.back_button.pack(side=tk.RIGHT)
         
@@ -88,6 +90,18 @@ class MyDataSetsView(tk.Frame):
             self.dataSetsBox.insert(tk.END, self.dataSetName_entry.get())
             self.dataSetName_entry.delete(0, tk.END)
             self.selectedGesturesBox.delete(0, tk.END) 
+    
+    def deleteDataset(self):
+        selected_index = self.dataSetsBox.curselection()
+        if selected_index:
+            modelName = self.dataSetsBox.get(selected_index)
+            self.dataSetsBox.delete(selected_index)
+            folder_to_delete1 = os.path.join(MLScript.DATA_PATH2, modelName)
+            folder_to_delete2 = os.path.join(MLScript.DATA_PATH3, modelName)
+            if os.path.exists(folder_to_delete1):
+                shutil.rmtree(folder_to_delete1)
+            if os.path.exists(folder_to_delete2):
+                shutil.rmtree(folder_to_delete2)
             
             
                 
