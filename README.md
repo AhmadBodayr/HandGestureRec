@@ -14,7 +14,7 @@ No DBMS was used instead a folder tree which is composed of 3 submodules was bui
 ### The machine learning algorithm:
 The ML. model used is an LSTM model  which was built using Tensorflow 2.X  and the Keras ApI. for tensorFlow.
 # How to use:
-install the library from $ pip using pip install HandGestureRecSiliconM1 and in your python project write at the terminal run 
+install the library from $ pip using pip install HandGestureRec and in your python project write in the terminal 'execHandGestureRec' 
 * 1)   The user define one or more gesture using the GUI. One gesture is to be defined at a time. The gesture is defined by giving it a name and pressing create gesture then OpenCV will  give the user access to the webcam, 80 videos will be taken each is 30 frames in length so the user needs to do the gesture for 80 times. The starting time of each try of the 80 will be shown on the screen.
 * 2) After the user defines 1 or more gestures, he can then use the datasets submodule to create a dataset which will then serve as an input to the ML. model. To create a dataset the user have to give it a name and choose a subset of the gestures he defiend before hand then press create dataset.
 * 3)  After having one or more datasets the user can then can to the models submodule to crerate a model to a specific dataset. There is a 1:1 relation between the datasets and the models meaning that every dataset can only contribute to only one model.
