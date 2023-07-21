@@ -2,7 +2,7 @@
 # Short Summary:
 The library is an open source dynamic hand gesture recognition built using python with a Tkinter GUI and ML. using Tensorflow, Keras Api for TF, OpneCV for camera access and MediaPipe for hand landmarks detection https://github.com/AhmadBodayr/HandGestureRec
 
-Find it on PYPI and try it ^_^  https://pypi.org/project/HandGestureRec/
+Find it on PYPI  https://pypi.org/project/HandGestureRec/
 ## Implementation: 
 The library uses the webcam as the sensor and it gives the user access to the webcam using opencv, then the handlandmarks are collected using MediaPipe.
 ## GUI:
